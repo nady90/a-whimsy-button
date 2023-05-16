@@ -7,16 +7,21 @@ import heartSvg from "./assets/heart-svg-2.svg";
 import heartSVGTransparent from "./assets/heart-svg-transparent.svg";
 import heartSVGMask from "./assets/heart-svg-mask.svg";
 import heartSVGPlugin from "./assets/heart-svg-plugin.svg";
+import useSound from "use-sound";
+import popSound from "./assets/541993__rob_marion__gasp_ui_pop_1.wav";
 
 function App() {
   const redDivRef = useRef(null);
   const eyesEmojiRef = useRef(null);
   const [clickCount, setClickCount] = useState(1);
 
+  const [playPopSound] = useSound(popSound, { volume: 0.25 });
+
   const handleBtnClick = () => {
     redDivRef.current.style.transform = `translate(-50%,-${clickCount * 30}%)`;
-
     setClickCount(clickCount + 1);
+
+    playPopSound();
 
     if (clickCount >= 3) {
       setClickCount(0);
@@ -24,7 +29,7 @@ function App() {
       eyesEmojiRef.current.classList.add("emoji-animation");
     }
 
-    if (clickCount === 1) {
+    if (clickCount < 3) {
       eyesEmojiRef.current.classList.remove("emoji-animation");
     }
   };
